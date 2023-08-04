@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=3 uid="uid://jmud0ldapaio"]
+
+[ext_resource type="Script" path="res://Player/Player.gd" id="1_077py"]
+[ext_resource type="Texture2D" uid="uid://dipq2q78dmauo" path="res://Player/twyodw9frida1.jpg" id="2_iu7rg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qm0sc"]
+albedo_color = Color(0.054902, 0.054902, 0.054902, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_fuvj1"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2qv5r"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uc8ai"]
+albedo_texture = ExtResource("2_iu7rg")
+
+[sub_resource type="SphereMesh" id="SphereMesh_m5dul"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_yvu4u"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_077py")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.535, 0, 0, 0, 0.535, 0, 0, 0, 0.535, 0, 1, 0)
+material_override = SubResource("StandardMaterial3D_qm0sc")
+mesh = SubResource("CapsuleMesh_fuvj1")
+
+[node name="BodyCollider" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.535, 0, 0, 0, 0.535, 0, 0, 0, 0.535, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_2qv5r")
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.66806, 0)
+
+[node name="Head" type="MeshInstance3D" parent="Camera"]
+transform = Transform3D(0.535, 0, 0, 0, 0.535, 0, 0, 0, 0.535, 0, 0.03, 0.002)
+material_override = SubResource("StandardMaterial3D_uc8ai")
+mesh = SubResource("SphereMesh_m5dul")
+skeleton = NodePath("../..")
+
+[node name="RayCast3D" type="RayCast3D" parent="Camera"]
+visible = false
+target_position = Vector3(0, 0, -3)
+
+[node name="Marker3D" type="Marker3D" parent="Camera/RayCast3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.08896, 0)
+billboard = 1
+text = "Name
+"
+
+[node name="HeadCollider" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.535, 0, 0, 0, 0.535, 0, 0, 0, 0.535, 0, 1.69806, 0.002)
+shape = SubResource("SphereShape3D_yvu4u")
