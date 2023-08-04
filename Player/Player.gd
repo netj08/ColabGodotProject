@@ -10,7 +10,7 @@ var is_holding_item = false
 @onready var marker = $Camera/RayCast3D/Marker3D
 
 const SPEED = 5.0
-const JUMP_VELOCITY = 13
+const JUMP_VELOCITY = 8
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -19,6 +19,7 @@ func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	$Body.hide()
 	$Camera/Head.hide()
+	$Label3D.hide()
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
