@@ -4,6 +4,10 @@ var distance_to_detach : float = 4.0
 var pulling_strength : int = 4
 var target = null
 var is_holding_item = false
+var canPickup = false
+var team = 0
+var throwStrength = 20
+
 
 @onready var camera = $Camera
 @onready var raycast = $Camera/RayCast3D
@@ -30,6 +34,9 @@ func _unhandled_input(event):
 func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
+		
+	if Input.is_action_just_pressed("throw"):
+		throw()
 
 	if Input.is_action_just_pressed("Jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
@@ -47,13 +54,11 @@ func _physics_process(delta):
 	
 	if Input.is_action_just_pressed("pickup"):
 		if raycast.is_colliding():
-			target = raycast.get_collider()
-			if target is RigidBody3D:
-				target.animator.play("outline")
+			if raycast.get_collider().get_node_or_null("canPickup"):
+				target = raycast.get_collider()
 	
 	if Input.is_action_just_released("pickup"):
 		if target is RigidBody3D:
-			target.animator.play("detach")
 			target = null
 	
 	if target != null:
@@ -62,7 +67,12 @@ func _physics_process(delta):
 			var b = target.global_transform.origin
 			target.linear_velocity = (a - b) * pulling_strength
 			if (a - b).x > distance_to_detach or (a - b).y > distance_to_detach or (a - b).z > distance_to_detach or (a - b).x < -distance_to_detach or (a - b).y < -distance_to_detach or (a - b).z < -distance_to_detach:
-				target.animator.play("detach")
 				target = null
 		else:
 			target = null
+			
+func throw():
+	if target != null:
+		var dir = -camera.global_transform.basis.z.normalized() * throwStrength + Vector3(0,2,0)
+		target.apply_central_impulse(dir)
+		target = null

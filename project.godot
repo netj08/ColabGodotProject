@@ -10,13 +10,20 @@ config_version=5
 
 [application]
 
-config/name="Item Pickup System"
+config/name="Physics Game"
 run/main_scene="res://Scenes/Levels/prototype.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
+
+[debug]
+
+shapes/collision/shape_color=Color(0, 0.6, 0.701961, 0.419608)
+shapes/stretch/mode="canvas_items"
+shapes/size/borderless=false
 
 [display]
 
 window/size/mode=3
+window/stretch/mode="canvas_items"
 
 [input]
 
@@ -53,12 +60,17 @@ Fullscreen={
 }
 pickup={
 "deadzone": 0.5,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":69,"key_label":0,"unicode":101,"echo":false,"script":null)
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(159, 18),"global_position":Vector2(163, 61),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
 Jump={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":32,"echo":false,"script":null)
+]
+}
+throw={
+"deadzone": 0.51,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":2,"position":Vector2(201, 24),"global_position":Vector2(205, 67),"factor":1.0,"button_index":2,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
 
