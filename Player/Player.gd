@@ -7,13 +7,14 @@ var is_holding_item = false
 var canPickup = false
 var team = 0
 var throwStrength = 20
+var crouching = false
 
 
 @onready var camera = $Camera
 @onready var raycast = $Camera/RayCast3D
 @onready var marker = $Camera/RayCast3D/Marker3D
 
-const SPEED = 5.0
+var SPEED = 5.0
 const JUMP_VELOCITY = 8
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -23,7 +24,7 @@ func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	$Body.hide()
 	$Camera/Head.hide()
-	$Label3D.hide()
+	$Name.hide()
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
@@ -35,8 +36,9 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 		
-	if Input.is_action_just_pressed("throw"):
-		throw()
+	if Input.is_action_just_pressed("throw"):throw()
+	if Input.is_action_just_pressed("Crouch"):crouch()
+	if Input.is_action_just_released("Crouch"):crouch()
 
 	if Input.is_action_just_pressed("Jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
@@ -76,3 +78,22 @@ func throw():
 		var dir = -camera.global_transform.basis.z.normalized() * throwStrength + Vector3(0,2,0)
 		target.apply_central_impulse(dir)
 		target = null
+		
+func crouch():
+	var collider = $BodyCollider
+	var body = $Body 
+	
+	if crouching:
+		SPEED = SPEED*2
+		collider.scale.y = collider.scale.y * 2
+		body.scale.y = body.scale.y * 2
+		camera.position.y = camera.position.y + 0.25
+		crouching = false
+	else:
+		SPEED = SPEED/2
+		collider.scale.y = collider.scale.y/2
+		body.scale.y = body.scale.y/2
+		camera.position.y = camera.position.y - 0.25
+		crouching = true
+	
+	

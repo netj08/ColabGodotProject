@@ -1,7 +1,7 @@
 [gd_scene load_steps=29 format=3 uid="uid://bj1ljtkpfa2vu"]
 
+[ext_resource type="Script" path="res://Scripts/world.gd" id="1_65ubt"]
 [ext_resource type="Texture2D" uid="uid://dbbl1veayn7sl" path="res://Textures/Prototype/Dark.png" id="1_fmmmc"]
-[ext_resource type="Script" path="res://world.gd" id="1_uiq28"]
 [ext_resource type="Texture2D" uid="uid://bwclkayk1imdn" path="res://Textures/Prototype/Green.png" id="3_1p5ux"]
 [ext_resource type="Texture2D" uid="uid://do68txgsn4jov" path="res://Textures/Prototype/Orange.png" id="4_gjjup"]
 [ext_resource type="PackedScene" uid="uid://jmud0ldapaio" path="res://Player/player.tscn" id="5_eyt46"]
@@ -69,7 +69,7 @@ albedo_texture = ExtResource("4_gjjup")
 [sub_resource type="BoxShape3D" id="BoxShape3D_cg5lu"]
 
 [node name="World" type="Node3D"]
-script = ExtResource("1_uiq28")
+script = ExtResource("1_65ubt")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.816803, 0.576917, 0, -0.576917, 0.816803, 0, 5.07858, 7.18124)
@@ -97,40 +97,86 @@ mesh = SubResource("BoxMesh_wyeka")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Wall/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_c7mvc")
 
-[node name="Player" parent="." instance=ExtResource("5_eyt46")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.529, -0.305755, 6.66593)
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Controls" type="PanelContainer" parent="CanvasLayer"]
-offset_left = 20.0
-offset_top = 17.0
-offset_right = 215.0
-offset_bottom = 177.0
+[node name="PauseMenu" type="Panel" parent="CanvasLayer"]
+visible = false
+self_modulate = Color(0, 0, 0, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Controls"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PauseMenu"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -86.5
+offset_top = -195.0
+offset_right = 86.5
+offset_bottom = 195.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 70
+alignment = 1
+
+[node name="Buttons" type="PanelContainer" parent="CanvasLayer/PauseMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PauseMenu/VBoxContainer/Buttons"]
 layout_mode = 2
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Controls/MarginContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="CanvasLayer/Controls/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/PauseMenu/VBoxContainer/Buttons/MarginContainer"]
 layout_mode = 2
 text = "Walk - WASD
 Pickup - Left Click
 Throw - Right Click
 Jump - Space
-Quit - Shift+ESC
+"
+horizontal_alignment = 1
+
+[node name="Controls" type="PanelContainer" parent="CanvasLayer/PauseMenu/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PauseMenu/VBoxContainer/Controls"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PauseMenu/VBoxContainer/Controls/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 7
+alignment = 1
+
+[node name="SettingsButton" type="Button" parent="CanvasLayer/PauseMenu/VBoxContainer/Controls/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Settings
+"
+
+[node name="LeaveButton" type="Button" parent="CanvasLayer/PauseMenu/VBoxContainer/Controls/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Leave Game"
+
+[node name="QuitButton" type="Button" parent="CanvasLayer/PauseMenu/VBoxContainer/Controls/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit To Desktop
 "
 
 [node name="Characters" type="Node" parent="."]
 
 [node name="Ball" type="RigidBody3D" parent="Characters"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.81157, 0.5, -1.99652)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.91552, 0.5, -1.99652)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Characters/Ball"]
 mesh = SubResource("SphereMesh_um7hn")
@@ -162,7 +208,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_k2tlv")
 shape = SubResource("CylinderShape3D_jpxf5")
 
 [node name="Capsule" type="RigidBody3D" parent="Characters"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.60468, 1.32749, -3.2335)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.79782, 1.32749, -3.69691)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Characters/Capsule"]
 mesh = SubResource("CapsuleMesh_k22d7")
@@ -174,7 +220,7 @@ shape = SubResource("CapsuleShape3D_60p1u")
 [node name="canPickup" type="Node" parent="Characters/Capsule"]
 
 [node name="Capsule2" type="RigidBody3D" parent="Characters"]
-transform = Transform3D(1, 0, 0, 0, -0.00392703, -0.999992, 0, 0.999992, -0.00392703, 2.99702, 1.32749, -2.7739)
+transform = Transform3D(1, 0, 0, 0, -0.00392703, -0.999992, 0, 0.999992, -0.00392703, 4.43426, 1.32749, -3.75449)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Characters/Capsule2"]
 mesh = SubResource("CapsuleMesh_k22d7")
@@ -242,3 +288,9 @@ text = "Can't Pick Up"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.55826, 0.839622, 0)
 billboard = 1
 text = "Can Pick Up"
+
+[node name="Players" type="Node" parent="."]
+
+[node name="Player" parent="Players" instance=ExtResource("5_eyt46")]
+
+[connection signal="pressed" from="CanvasLayer/PauseMenu/VBoxContainer/Controls/MarginContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
